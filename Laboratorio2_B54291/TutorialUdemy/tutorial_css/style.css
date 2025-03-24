@@ -1,7 +1,39 @@
 @charset "utf-8";
-/* CSS Documento*/
+/**/
 div {
     background-color:#D0D0D0;
     color:#5B64FF;
     margin:20px;
+    width: 50%;
+}
+img {
+    width: 100%; /*Hace que la img se adapte ese % al tam del div*/
+}
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #2e8753;
+    text-align: center;
+}
+nav li {
+    float: left;
+    font-family: Segoe, "SegoeUI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+    font-size: 1.2em;
+    line-height: 40px;
+    height: 40px;
+    border-bottom: 1px solid #393434;
+}
+nav a {
+    text-decoration: none;
+    color: #fff;
+    display: block;
+    text-transform: uppercase;
+    padding: 4px;
+    font-weight: bold;
+    width: 120px;
+}
+nav a:hover , a:active {
+    background-color: #b7ff00;
 }
