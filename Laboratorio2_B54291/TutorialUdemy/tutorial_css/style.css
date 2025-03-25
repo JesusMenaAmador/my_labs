@@ -5,6 +5,29 @@ div {
     color:#5B64FF;
     margin:20px;
     width: 50%;
+    text-align: center;
+   
+}
+/*Se seleccioann todos los hyperlinks*/
+a {
+    text-decoration: none; /*Se remueve el subrayado de los hypelinks*/
+    line-height:50px; /*Añade un espacio después del hyperlink de x tamaño*/
+    text-transform: uppercase; /*Convierte a uppercase los links*/
+    letter-spacing: 5px; /**espacio extra entre las letras*/
+    word-spacing: 10px;
+}
+/*Se usa el # para identificar un id*/
+#newspan {
+    background:aqua;
+    color:rgba(221, 46,49, 1.00);
+}
+/*Para editar una clase se utiliza .*/
+.newspan {
+    background: yellow;
+    font-weight: bold;
+    font-size: 18px;
+    font-style: italic;
+    
 }
 img {
     width: 100%; /*Hace que la img se adapte ese % al tam del div*/
