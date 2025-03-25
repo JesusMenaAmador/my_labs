@@ -1,48 +1,79 @@
 @charset "utf-8";
-/**/
-div {
-    background-color:#D0D0D0;
-    color:#5B64FF;
-    margin:20px;
-    width: 50%;
+/* CSS Document */
+span, div em {
+    padding: 5px;
+    display: inline-block;
+}
+.first span:hover {
+    background-color: #28FFF5;
+}
+div:first-letter {
+    color: #FF0509;
+    font-weight: bold;
+}
+.thumbnail {
+    max-width: 100px;
+}
+span:first-child {
+    font-weight: bold;
+    font-size: 40px;
+}
+div:first-child {
+    background: #000000;
+    color: #5B64FF;
+    margin: 20px;
     text-align: center;
-   
 }
-/*Se seleccioann todos los hyperlinks*/
+.thumbnail {
+    max-width: 100px;
+}
+.one, .two, .three {
+    color: #00FF4C;
+}
+.red {
+    background: #FF0509;
+    padding: 50px;
+}
+#mymargin {
+    background-color: #abe616;
+    /*Determina el tamaño del espacio en blanco, margin-top solo añade arriba, margin-bottom solo añade abajo*/
+    margin: 20px 5px 15px 4px; /*1p: todo parejo; 2p: topYabajo, -> e <-; 3p: top, -> e <-, bottom; 4p: top, ->, bottom, <-*/
+    border: #331394 solid 3px; /*Color solido  tamaño*/
+    padding: 30px 100px 0px 0px;
+}
+#hola { /*En este caso recetea el formato que se le había puesto*/
+    background-color: #28FFF5;
+}
 a {
-    text-decoration: none; /*Se remueve el subrayado de los hypelinks*/
-    line-height:50px; /*Añade un espacio después del hyperlink de x tamaño*/
-    text-transform: uppercase; /*Convierte a uppercase los links*/
-    letter-spacing: 5px; /**espacio extra entre las letras*/
-    word-spacing: 10px;
+    letter-spacing: 5px;
+    word-spacing: 20px;
+    text-decoration: none;
+    text-transform: uppercase;
 }
-/*Se usa el # para identificar un id*/
 #newspan {
-    background:aqua;
-    color:rgba(221, 46,49, 1.00);
+    background: aqua;
+    color: rgba(221,46,49,1.00);
 }
-/*Para editar una clase se utiliza .*/
 .newspan {
     background: yellow;
     font-weight: bold;
     font-size: 18px;
     font-style: italic;
-    
 }
 img {
-    width: 100%; /*Hace que la img se adapte ese % al tam del div*/
+    width: 100%;
 }
 nav ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #2e8753;
+    background-color: #444;
     text-align: center;
 }
 nav li {
     float: left;
-    font-family: Segoe, "SegoeUI", "DejaVu Sans", "Trebuchet MS", Verdana, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     font-size: 1.2em;
     line-height: 40px;
     height: 40px;
@@ -57,6 +88,9 @@ nav a {
     font-weight: bold;
     width: 120px;
 }
-nav a:hover , a:active {
-    background-color: #b7ff00;
+nav a:hover, a:active {
+    background-color: #000000;
+}
+nav a:visited {
+    color: #FF8E00;
 }
