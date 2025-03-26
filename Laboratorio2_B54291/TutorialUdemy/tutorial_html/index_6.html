@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Inputs</title>
+    </head>
+    
+    <body>
+        <form>
+            <label for="username" >User name:</label>
+            <input type="text" name="username" value="">
+            <br>
+            <label for="password" >Password:</label>
+            <input type="password" name="password" value="">
+            <br>
+            <br>
+            <input type="submit" value="submit">
+        </form>
+        <br>
+        <form action="submitme.php" method="get"> <!--get me retorna los atributos del form en el url-->
+            <label for="username" >User name:</label>
+            <input type="text" name="username" value="">
+            <br>
+            <label for="password" >Password:</label>
+            <input type="password" name="password" value="">
+            <br>
+            <br>
+            <input type="submit" value="submit">
+        </form>
+        <br>
+        <form action="submitme.php" method="post"> <!--post no muestra los valores del form en el url, es más seguro-->
+            <label for="username" >User name:</label>
+            <input type="text" name="username" value="">
+            <br>
+            <label for="password" >Password:</label>
+            <input type="password" name="password" value="">
+            <br>
+            <textarea rows="5" cols="20">More content</textarea> <!--Añade un cuadro de texto de x,y tamaño con el texto adentro de more content-->
+            <br>
+            <select> <!--coloca un select box-->
+                <option value="1">Select 1</option>
+                <option value="2">Select 2</option>
+                <option value="3">Select 3</option>
+            </select>
+            <br> <!--coloca botones de seleccion redonda, si tienen el mismo nombre son excluyentes-->
+            <input type="radio" name="radiobutton" value="html"> HTML
+            <input type="radio" name="radiobutton" value="css"> CSS
+            <br> <!--nombre distinto se puede seleccionar más de uno-->
+            <input type="radio" name="radiobutton1" value="html"> HTML
+            <input type="radio" name="radiobutton2" value="css"> CSS
+            <br> <!--botones cuadrados que se pueden marcar y demarcar-->
+            <input type="checkbox" name="checkbutton1" value="html"> HTML
+            <input type="checkbox" name="checkbutton2" value="html"> CSS
+            <br>
+            <!--Tipos de atos soportados por html5, no todos los navegadores pueden-->
+            HTML5 type1:<br> <!--Inserta una caja que sube y baja entre las opciones, el disabled la deshabilita-->  
+            <input name="onetype" type="number" disabled class="myInfo" placeholder="5" max="55" min="5" tabindex="5" title="five" value="5" >
+            <br>
+            HTML5 type1a:<br> <!--Inserta una caja que sube y baja entre las opciones-->  
+            <input name="oneatype" type="number"  placeholder="5" max="55" min="5" value="5" >
+            <br>
+            HTML5 type2:<br> <!--Coloca un espacio para fecha, incluye calendario-->
+            <input type="date" name="twotype" min="2015-07-07" tabindex="2">
+            <br>
+            HTML5 type3:<br> <!--Permite elegir un color entre toda la paleta-->
+            <input name="threetype" type="color" tabindex="7">
+            <br>
+            HTML5 type4:<br> <!--valida que tenga formato de correo-->
+            <input type="email" name="fourtype">
+            <br>
+            HTML5 type5:<br> <!--Una barra que se puede mover hacia la derecha o izquierda-->
+            <input type="range" name="fivetype" min="1" max="10">
+            <br>
+            HTML5 type6:<br>
+            <input type="datetime-local" name="sixtype">
+            <br>
+            HTML5 type7:<br>
+            <input type="month" name="seventype">
+            <br>
+            HTML5 type8:<br> <!--valida que se coloque un url-->
+            <input type="url" name="eighttype">
+            <br>
+            <input type="submit" value="submit">
+        </form>
+    </body>
+</html>
