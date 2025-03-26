@@ -1,37 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
     <head>
-        <meta http-equiv="Content-type" content="text/html"; charset="=utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" /> <!--el viewport para moviles mejora escala lo que ve-->
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>HTML template</title>
-        <link rel="stylesheet" href="style.css"> <!--Para ligar el html al css-->
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
+        <div id="wrapper">
         <header>
-            <!--Headings-->
-            <h1>Elearning Website</h1>
-            This is a sample website</header>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li> <!--hyperlink type, donde está el # ponmos la dirección-->
-                <li><a href="#">About</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-        <section>
-            <div class="red"><div id="mymargin"><span id="hola">The Box Model CSS</span></div></div>
-            <!--El id solo se puede usar una vez en un archivo html, las clases se pueden usar más de una vez-->
-            <div class="content"> <span id="newspan">Lorem ipsum</span> dolor sit amet,  <span class="newspan">wisi amet rutrum nulla proin odio mauris</span>,
-                aliquet rutrum etc 
-                <span class="newspan">asdsaw</span>dfdewhfehwfiuhwfiuhfhwfhifhihfihsfuh
-                wu<a href="#">href a</a>b ehhefhiufiufufbbfiubfbfebfbef <img src="https://wallpapers.com/images/featured-full/roronoa-zoro-hfxnwuxph7uv5tsu.jpg" >bffbfuefubfubfubwfuebfuewfuiebfuibef
-                bewfu<a href="#">bsfsdfds</a>fashjfahjfahjfjvfasfjhfbsdhbfj</div>
-        </section>
-        <section>
-            <div>Hola que hace</div>
-            <div class="content"> Lorem ipsum dolor sit amet, <img src="https://wallpapers.com/images/featured-full/roronoa-zoro-hfxnwuxph7uv5tsu.jpg" > wisi amet rutrum nulla proin odio mauris, aliquet rutrum etc</div>
-        </section>
-        <footer class="newspan">This is a sample of a footer</footer>
+            <h1 >Elearning Website</h1>
+                <span class="headingtext">This is the Home page content</span>
+            </header>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index_2.html">About</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <section id="one" >
+                <h2>add <a href="#">content</a> here</h2>
+                <p></p>
+                </section>
+                <section id="two" >
+                <h2>add content here</h2>
+                <p></p>
+                </section>
+                <section id="three">
+                <h2>add content here</h2>
+                <p></p>
+            </section>
+            <footer>
+                <h4>Footer</h4>
+                <p>Footer text</p>
+            </footer>
+        </div>
     </body>
 </html>
