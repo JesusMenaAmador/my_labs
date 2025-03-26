@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* CSS Document */
-span, div em { /*Se usa la coma para separar diferentes clases y si hay un espacio en blanco, a los em que estén dentro de un div*/
+span, div em {
     padding: 5px;
     display: inline-block;
 }
@@ -42,9 +42,7 @@ div:first-child {
     padding: 30px 100px 0px 0px;
 }
 #hola { /*En este caso recetea el formato que se le había puesto*/
-    /*background-color: #28FFF5;*/
-    /*después del url si se le pone no-repit no ajusta la imagen, pero la centra, tambien se pueden añadir otros parametros despues del no repit*/
-    background: #fff url(https://img.freepik.com/vector-gratis/fondo-cuadros-distorsionado-plano_23-2148967274.jpg?t=st=1742950527~exp=1742954127~hmac=d3d1b77bd36b48cea4ed5bf6dc4d81dac8611401c1774da251ddb6fa687aa894&w=900);
+    background-color: #28FFF5;
 }
 a {
     letter-spacing: 5px;
@@ -93,6 +91,6 @@ nav a {
 nav a:hover, a:active {
     background-color: #000000;
 }
-nav a:visited {  /*el : se utiliza cuando tenemos un selector que cambia de estados, después del dos puntos podemos poner el estado*/
+nav a:visited {
     color: #FF8E00;
 }
