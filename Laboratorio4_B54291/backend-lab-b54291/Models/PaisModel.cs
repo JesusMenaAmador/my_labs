@@ -6,7 +6,7 @@
 
             public string Nombre { get; set; }
 
-            public string Contiene { get; set; }
+            public string Continente { get; set; }
 
             public string Idioma { get; set; }
     }
