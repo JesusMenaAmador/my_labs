@@ -1,10 +1,10 @@
 ﻿using backend_lab_b54291.Models;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace backend_lab_b54291.Handlers
 {
-    public class PaisHandler
+    public class PaisesHandler
     {
         private SqlConnection _conexion;
         private string _rutaConexion;
