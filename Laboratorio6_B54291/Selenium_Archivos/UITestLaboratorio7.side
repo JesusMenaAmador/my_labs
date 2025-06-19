@@ -1,0 +1,120 @@
+{
+  "id": "1f8e7f95-37ca-4537-a44e-c86239e1915d",
+  "version": "2.0",
+  "name": "UITestLaboratorio7",
+  "url": "http://localhost:8080",
+  "tests": [{
+    "id": "64179dcc-b580-48d4-bb01-91da9b97ee06",
+    "name": "PruebaUIUno",
+    "commands": [{
+      "id": "b32a060d-a97a-4208-a51c-e6cbd4db8168",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a74e67da-bbca-4133-87f7-cea5ea02db57",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1295x735",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "78619c1b-7952-47ad-bab0-308926d2d9df",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.display-4",
+      "targets": [
+        ["css=.display-4", "css:finder"],
+        ["xpath=//div[@id='app']/div/h1", "xpath:idRelative"],
+        ["xpath=//h1", "xpath:position"],
+        ["xpath=//h1[contains(.,'Lista de países')]", "xpath:innerText"]
+      ],
+      "value": "Lista de países"
+    }, {
+      "id": "596b620b-8e61-4316-8ff1-badae783822e",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=th:nth-child(1)",
+      "targets": [
+        ["css=th:nth-child(1)", "css:finder"],
+        ["xpath=//div[@id='app']/div/table/thead/tr/th", "xpath:idRelative"],
+        ["xpath=//th", "xpath:position"],
+        ["xpath=//th[contains(.,'Nombre')]", "xpath:innerText"]
+      ],
+      "value": "Nombre"
+    }, {
+      "id": "6d2d6409-0f9a-4f47-9863-ec356ecdcb8b",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=th:nth-child(2)",
+      "targets": [
+        ["css=th:nth-child(2)", "css:finder"],
+        ["xpath=//div[@id='app']/div/table/thead/tr/th[2]", "xpath:idRelative"],
+        ["xpath=//th[2]", "xpath:position"],
+        ["xpath=//th[contains(.,'Continente')]", "xpath:innerText"]
+      ],
+      "value": "Continente"
+    }, {
+      "id": "7430f705-d1a8-4a43-b744-c2bf8da2c587",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=th:nth-child(3)",
+      "targets": [
+        ["css=th:nth-child(3)", "css:finder"],
+        ["xpath=//div[@id='app']/div/table/thead/tr/th[3]", "xpath:idRelative"],
+        ["xpath=//th[3]", "xpath:position"],
+        ["xpath=//th[contains(.,'Idioma')]", "xpath:innerText"]
+      ],
+      "value": "Idioma"
+    }, {
+      "id": "0db12f17-e101-4e65-bd11-f8a9b927342a",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=th:nth-child(4)",
+      "targets": [
+        ["css=th:nth-child(4)", "css:finder"],
+        ["xpath=//div[@id='app']/div/table/thead/tr/th[4]", "xpath:idRelative"],
+        ["xpath=//th[4]", "xpath:position"],
+        ["xpath=//th[contains(.,'Acciones')]", "xpath:innerText"]
+      ],
+      "value": "Acciones"
+    }, {
+      "id": "b056589d-975d-462f-8e8e-6a8049b4a0ee",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-outline-secondary",
+      "targets": [
+        ["css=.btn-outline-secondary", "css:finder"],
+        ["xpath=//button[@type='button']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div/div/a/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Agregar país')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0dc699df-9587-4baf-943e-ef63f3f6e6fc",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.text-center",
+      "targets": [
+        ["css=.text-center", "css:finder"],
+        ["xpath=//div[@id='app']/div/div/h3", "xpath:idRelative"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'Formulario de creación de países')]", "xpath:innerText"]
+      ],
+      "value": "Formulario de creación de países"
+    }]
+  }],
+  "suites": [{
+    "id": "44a16a40-4995-4039-a1b9-19288630590a",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["64179dcc-b580-48d4-bb01-91da9b97ee06"]
+  }],
+  "urls": ["http://localhost:8080/"],
+  "plugins": []
+}
