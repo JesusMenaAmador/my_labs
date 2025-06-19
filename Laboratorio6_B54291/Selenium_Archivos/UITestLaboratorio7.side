@@ -1,27 +1,27 @@
 {
-  "id": "1f8e7f95-37ca-4537-a44e-c86239e1915d",
+  "id": "fbb497cc-8b38-45cd-bd60-8099132d6473",
   "version": "2.0",
   "name": "UITestLaboratorio7",
   "url": "http://localhost:8080",
   "tests": [{
-    "id": "64179dcc-b580-48d4-bb01-91da9b97ee06",
+    "id": "60875e44-31f9-408b-a624-40341ce996cd",
     "name": "PruebaUIUno",
     "commands": [{
-      "id": "b32a060d-a97a-4208-a51c-e6cbd4db8168",
+      "id": "4bef7c0f-f5e2-415c-b4ae-e267d0cc5e02",
       "comment": "",
       "command": "open",
       "target": "/",
       "targets": [],
       "value": ""
     }, {
-      "id": "a74e67da-bbca-4133-87f7-cea5ea02db57",
+      "id": "f0c5f23a-dd9c-48c3-9029-8d4068973169",
       "comment": "",
       "command": "setWindowSize",
       "target": "1295x735",
       "targets": [],
       "value": ""
     }, {
-      "id": "78619c1b-7952-47ad-bab0-308926d2d9df",
+      "id": "657cda6a-45d2-4127-bde0-b769a0150c11",
       "comment": "",
       "command": "assertText",
       "target": "css=.display-4",
@@ -33,55 +33,26 @@
       ],
       "value": "Lista de países"
     }, {
-      "id": "596b620b-8e61-4316-8ff1-badae783822e",
+      "id": "0ec1219a-c554-4f51-9d86-9f98322f7dca",
       "comment": "",
-      "command": "assertText",
-      "target": "css=th:nth-child(1)",
+      "command": "assertEditable",
+      "target": "css=tr:nth-child(1) .btn-secondary",
       "targets": [
-        ["css=th:nth-child(1)", "css:finder"],
-        ["xpath=//div[@id='app']/div/table/thead/tr/th", "xpath:idRelative"],
-        ["xpath=//th", "xpath:position"],
-        ["xpath=//th[contains(.,'Nombre')]", "xpath:innerText"]
+        ["css=tr:nth-child(1) .btn-secondary", "css:finder"],
+        ["xpath=//div[@id='app']/div/table/tbody/tr/td[4]/button", "xpath:idRelative"],
+        ["xpath=//td[4]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Editar')]", "xpath:innerText"]
       ],
-      "value": "Nombre"
+      "value": ""
     }, {
-      "id": "6d2d6409-0f9a-4f47-9863-ec356ecdcb8b",
+      "id": "d86e1295-b48b-4558-9a3f-e7cf7317d41e",
       "comment": "",
-      "command": "assertText",
-      "target": "css=th:nth-child(2)",
-      "targets": [
-        ["css=th:nth-child(2)", "css:finder"],
-        ["xpath=//div[@id='app']/div/table/thead/tr/th[2]", "xpath:idRelative"],
-        ["xpath=//th[2]", "xpath:position"],
-        ["xpath=//th[contains(.,'Continente')]", "xpath:innerText"]
-      ],
-      "value": "Continente"
+      "command": "assertTitle",
+      "target": "frontend-lab",
+      "targets": [],
+      "value": ""
     }, {
-      "id": "7430f705-d1a8-4a43-b744-c2bf8da2c587",
-      "comment": "",
-      "command": "assertText",
-      "target": "css=th:nth-child(3)",
-      "targets": [
-        ["css=th:nth-child(3)", "css:finder"],
-        ["xpath=//div[@id='app']/div/table/thead/tr/th[3]", "xpath:idRelative"],
-        ["xpath=//th[3]", "xpath:position"],
-        ["xpath=//th[contains(.,'Idioma')]", "xpath:innerText"]
-      ],
-      "value": "Idioma"
-    }, {
-      "id": "0db12f17-e101-4e65-bd11-f8a9b927342a",
-      "comment": "",
-      "command": "assertText",
-      "target": "css=th:nth-child(4)",
-      "targets": [
-        ["css=th:nth-child(4)", "css:finder"],
-        ["xpath=//div[@id='app']/div/table/thead/tr/th[4]", "xpath:idRelative"],
-        ["xpath=//th[4]", "xpath:position"],
-        ["xpath=//th[contains(.,'Acciones')]", "xpath:innerText"]
-      ],
-      "value": "Acciones"
-    }, {
-      "id": "b056589d-975d-462f-8e8e-6a8049b4a0ee",
+      "id": "1eb67c90-e0e9-4893-b3a1-6db923deedd9",
       "comment": "",
       "command": "click",
       "target": "css=.btn-outline-secondary",
@@ -94,9 +65,9 @@
       ],
       "value": ""
     }, {
-      "id": "0dc699df-9587-4baf-943e-ef63f3f6e6fc",
+      "id": "740fce89-9d1c-485d-976d-ba4986e4d909",
       "comment": "",
-      "command": "assertText",
+      "command": "assertElementPresent",
       "target": "css=.text-center",
       "targets": [
         ["css=.text-center", "css:finder"],
@@ -104,16 +75,29 @@
         ["xpath=//h3", "xpath:position"],
         ["xpath=//h3[contains(.,'Formulario de creación de países')]", "xpath:innerText"]
       ],
-      "value": "Formulario de creación de países"
+      "value": ""
+    }, {
+      "id": "b03908f9-c829-4980-b033-19ce342bf05f",
+      "comment": "",
+      "command": "assertValue",
+      "target": "id=name",
+      "targets": [
+        ["id=name", "id"],
+        ["css=#name", "css:finder"],
+        ["xpath=//input[@id='name']", "xpath:attributes"],
+        ["xpath=//div[@id='app']/div/div/form/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
     }]
   }],
   "suites": [{
-    "id": "44a16a40-4995-4039-a1b9-19288630590a",
+    "id": "d490acef-3f98-4f42-b5ee-965eda4165f4",
     "name": "Default Suite",
     "persistSession": false,
     "parallel": false,
     "timeout": 300,
-    "tests": ["64179dcc-b580-48d4-bb01-91da9b97ee06"]
+    "tests": ["60875e44-31f9-408b-a624-40341ce996cd"]
   }],
   "urls": ["http://localhost:8080/"],
   "plugins": []
