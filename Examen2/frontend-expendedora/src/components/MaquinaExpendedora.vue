@@ -55,6 +55,11 @@
       <!-- Aquí irá la sección de ingreso de dinero -->
     </div>
   </div>
+  <footer class="border-top footer text-muted">
+  <div class="container">
+    &copy; 2025 - Examen 2 B54291- <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+  </div>
+</footer>
 </template>
 
 <script setup>
@@ -174,5 +179,14 @@ function obtenerImagen(nombre) {
 .subtitulo {
   text-align: center;
   margin-bottom: 20px;
+}
+
+.footer {
+  margin-top: 40px;
+  padding: 20px 0;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  color: #888;
+  font-size: 14px;
 }
 </style>
