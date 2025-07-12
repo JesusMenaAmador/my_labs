@@ -62,22 +62,10 @@
     <!-- Sección de visualización del vuelto -->
     <div v-if="mostrarVuelto">
       <h4 class="subtitulo">Vuelto entregado</h4>
+      <h5>Total vuelto entregado: ₡{{ totalVuelto }}</h5>
       <div class="row justify-content-center">
-        <!-- Mostrar todos los valores de vuelto incluyendo 0 para denominaciones no usadas -->
-        <div class="col-auto" v-for="(cantidad, valor) in vuelto" :key="valor">
-          <label>
-            {{ valor === 1000 ? `Billetes de ₡${valor}` : `Monedas de ₡${valor}` }}
-          </label>
-          <input 
-            type="text" 
-            class="form-control vuelto-input" 
-            :value="cantidad" 
-            readonly 
-            disabled 
-          />
-        </div>
-        <!-- Mostrar denominaciones incluso con 0 -->
-        <div v-for="denominacion in denominaciones" :key="denominacion.valor">
+        <!-- Mostrar todas las denominaciones (incluso si su cantidad es 0) -->
+        <div v-for="denominacion in denominaciones.filter(d => d.valor <= 500)" :key="denominacion.valor" class="col-auto">
           <label>
             {{ denominacion.tipo === 'billete' ? `Billetes de ₡${denominacion.valor}` : `Monedas de ₡${denominacion.valor}` }}
           </label>
@@ -91,7 +79,7 @@
         </div>
       </div>
 
-      <!-- Mensaje de error cuando no haya suficiente cambio -->
+      <!-- Mensaje de error cuando no haya suficiente cambio-->
       <div v-if="vueltoError" class="alert alert-danger mt-3">
         {{ vueltoError }}
       </div>
@@ -114,7 +102,7 @@ const mostrarPago = ref(false)
 const mostrarVuelto = ref(false)
 const refrescos = ref([])
 const vuelto = ref({})
-const vueltoError = ref("")
+const vueltoError = ref("")  // Variable para el mensaje de error
 const inputActivo = ref(null)
 const indiceActivo = ref(null)
 
@@ -199,7 +187,7 @@ async function confirmarPago() {
     vuelto.value = res.data.vuelto || {}
     mostrarPago.value = false
     mostrarVuelto.value = true
-    vueltoError.value = "";
+    vueltoError.value = "";  // Resetear error
     await cargarRefrescos()
   } catch (err) {
     const mensaje = err.response?.data?.mensaje || "Error procesando el pago"
@@ -216,6 +204,11 @@ function resetearCompra() {
   denominaciones.value.forEach(d => d.cantidad = 0)
   mostrarVuelto.value = false
 }
+
+const totalVuelto = computed(() =>
+  Object.entries(vuelto.value)
+    .reduce((total, [valor, cantidad]) => total + parseInt(valor) * cantidad, 0)
+)
 </script>
 
 <style scoped>

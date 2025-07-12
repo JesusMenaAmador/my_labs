@@ -15,14 +15,15 @@ namespace backend_expendedora.Services
         {
             try
             {
-                _pagoService.ProcesarPago(solicitud);
-                return new { mensaje = "Compra realizada con éxito" };
+                var resultado = _pagoService.ProcesarPago(solicitud);
+                return resultado;
             }
             catch (PagoException ex)
             {
                 return new { error = true, mensaje = ex.Message };
             }
         }
+
     }
 }
 
