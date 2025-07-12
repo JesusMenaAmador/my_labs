@@ -47,15 +47,17 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import axios from 'axios'
+import { ref, computed, onMounted } from 'vue';
+import axios from 'axios';
+import { API_BASE } from '../api';
 
 const mostrarPago = ref(false)
 const refrescos = ref([])
 
 onMounted(async () => {
   try {
-    const respuesta = await axios.get('http://localhost:5000/api/stock/refrescos')
+    const respuesta = await axios.get(`${API_BASE}/api/stock/refrescos`)
+    console.log('Datos cargados:', respuesta.data)
     refrescos.value = respuesta.data.map(r => ({
       ...r,
       cantidad: 0

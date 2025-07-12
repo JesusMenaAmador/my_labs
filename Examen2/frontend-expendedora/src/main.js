@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 
 router.beforeEach((to, from, next) => {
-  const defaultTitle = 'Aplicación Vue'
+  const defaultTitle = 'Expendedora'
   document.title = to.meta.title || defaultTitle
   next()
 })
