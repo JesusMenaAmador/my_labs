@@ -79,7 +79,7 @@
 
       <h5>Monto ingresado: ₡{{ montoIngresado }}</h5>
 
-      <button class="btn btn-primary mt-3" :disabled="!botonPagoHabilitado">
+      <button class="btn btn-primary mt-3" :disabled="!botonPagoHabilitado" @click="confirmarPago">
         Confirmar pago
       </button>
     </div>
@@ -188,12 +188,9 @@ const montoIngresado = computed(() => {
 
 const botonPagoHabilitado = computed(() => {
   const todosValidos = denominaciones.value.every(d => d.cantidad >= 0 && d.cantidad <= 999)
-  const soloUnoActivo = denominaciones.value.filter(d => d.cantidad > 0).length === 1
   const sinCampoActivo = indiceActivo.value === null
-  const hayDinero = montoIngresado.value > 0
-  return todosValidos && soloUnoActivo && sinCampoActivo && hayDinero
+  return todosValidos && sinCampoActivo
 })
-
 
 function validarIngreso(indice, event) {
   const valor = event.target.value
@@ -205,10 +202,39 @@ function validarIngreso(indice, event) {
     denominaciones.value[indice].cantidad = numero
   }
 
-  // Deshabilitar otros campos si este tiene valor
   denominaciones.value.forEach((d, i) => {
     if (i !== indice) d.cantidad = 0
   })
+}
+
+async function confirmarPago() {
+  const refrescosSeleccionados = {}
+  refrescos.value.forEach(r => {
+    if (r.cantidad > 0) {
+      refrescosSeleccionados[r.nombre] = r.cantidad
+    }
+  })
+
+  const dineroIngresado = {}
+  denominaciones.value.forEach(d => {
+    if (d.cantidad > 0) {
+      dineroIngresado[d.valor] = d.cantidad
+    }
+  })
+
+  try {
+    const respuesta = await axios.post(`${API_BASE}/api/stock/confirmar-pago`, {
+      refrescosSeleccionados,
+      dineroIngresado
+    })
+    alert(respuesta.data.mensaje)
+
+    mostrarPago.value = false
+    refrescos.value.forEach(r => r.cantidad = 0)
+    denominaciones.value.forEach(d => d.cantidad = 0)
+  } catch (error) {
+    alert(error.response?.data?.mensaje || "Error procesando el pago.")
+  }
 }
 </script>
 
