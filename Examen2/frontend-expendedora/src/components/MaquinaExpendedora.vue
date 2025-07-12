@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>Refrescos disponibles</h3>
+    <h3 class="subtitulo">Ingrese la cantidad de refrescos que desea adquirir</h3>
 
     <table class="table table-bordered" v-if="refrescos.length > 0">
       <thead>
@@ -13,7 +13,14 @@
       </thead>
       <tbody>
         <tr v-for="(producto, indice) in refrescos" :key="indice">
-          <td>{{ producto.nombre }}</td>
+          <td class="nombre-bebida">
+            <img
+              class="bebida-img"
+              :src="obtenerImagen(producto.nombre)"
+              :alt="producto.nombre"
+            />
+            <span>{{ producto.nombre }}</span>
+          </td>
           <td>{{ producto.precio }}</td>
           <td>{{ producto.stock }}</td>
           <td>
@@ -111,10 +118,61 @@ function filtrarEntrada(event, indice) {
     refrescos.value[indice].cantidad = numero
   }
 }
+
+function obtenerImagen(nombre) {
+  const nombreLimpio = nombre.toLowerCase()
+
+  if (nombreLimpio.includes("coca")) {
+    return new URL('../assets/refrescos/cocacola.png', import.meta.url).href
+  }
+  if (nombreLimpio.includes("sprite")) {
+    return new URL('../assets/refrescos/sprite.png', import.meta.url).href
+  }
+  if (nombreLimpio.includes("fanta")) {
+    return new URL('../assets/refrescos/fanta.png', import.meta.url).href
+  }
+  if (nombreLimpio.includes("pepsi")) {
+    return new URL('../assets/refrescos/pepsi.png', import.meta.url).href
+  }
+
+  return ''
+}
 </script>
 
 <style scoped>
 .cantidad-input {
   width: 80px;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
+}
+
+.table {
+  width: 100%;
+  text-align: center;
+}
+
+.table th,
+.table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.nombre-bebida {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.bebida-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.subtitulo {
+  text-align: center;
+  margin-bottom: 20px;
 }
 </style>
