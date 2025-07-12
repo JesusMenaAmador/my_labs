@@ -63,11 +63,10 @@
     <div v-if="mostrarVuelto">
       <h4 class="subtitulo">Vuelto entregado</h4>
 
-      <!-- ✅ Mostramos mensajeVuelto si existe -->
       <p class="mensaje-vuelto">{{ mensajeVuelto }}</p>
 
       <div class="row justify-content-center">
-        <div v-for="denominacion in denominaciones.filter(d => d.valor <= 500)" :key="denominacion.valor" class="col-auto">
+        <div v-for="denominacion in denominaciones" :key="denominacion.valor" class="col-auto">
           <label>
             {{ denominacion.tipo === 'billete' ? `Billetes de ₡${denominacion.valor}` : `Monedas de ₡${denominacion.valor}` }}
           </label>
@@ -83,9 +82,7 @@
 
       <h5>Total vuelto entregado: ₡{{ totalVuelto }}</h5>
 
-      <div class="text-center mt-3">
-        <button class="btn btn-secondary" @click="resetearCompra">Nueva compra</button>
-      </div>
+        <button class="btn btn-primary" @click="resetearCompra">Nueva compra</button>
     </div>
 
     <footer class="border-top footer text-muted">
@@ -103,7 +100,7 @@ const mostrarPago = ref(false)
 const mostrarVuelto = ref(false)
 const refrescos = ref([])
 const vuelto = ref({})
-const mensajeVuelto = ref("") // ✅ NUEVA VARIABLE PARA MOSTRAR EL MENSAJE
+const mensajeVuelto = ref("")
 const inputActivo = ref(null)
 const indiceActivo = ref(null)
 
