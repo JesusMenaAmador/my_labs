@@ -63,6 +63,9 @@
     <div v-if="mostrarVuelto">
       <h4 class="subtitulo">Vuelto entregado</h4>
 
+      <!-- ✅ Mostramos mensajeVuelto si existe -->
+      <p class="mensaje-vuelto">{{ mensajeVuelto }}</p>
+
       <div class="row justify-content-center">
         <div v-for="denominacion in denominaciones.filter(d => d.valor <= 500)" :key="denominacion.valor" class="col-auto">
           <label>
@@ -100,6 +103,7 @@ const mostrarPago = ref(false)
 const mostrarVuelto = ref(false)
 const refrescos = ref([])
 const vuelto = ref({})
+const mensajeVuelto = ref("") // ✅ NUEVA VARIABLE PARA MOSTRAR EL MENSAJE
 const inputActivo = ref(null)
 const indiceActivo = ref(null)
 
@@ -181,14 +185,14 @@ async function confirmarPago() {
       dineroIngresado
     })
 
+    mensajeVuelto.value = res.data.mensaje || ""
     vuelto.value = res.data.vuelto || {}
     mostrarPago.value = false
     mostrarVuelto.value = true
 
     await cargarRefrescos()
   } catch (err) {
-    const mensaje = err.response?.data?.mensaje || "Error procesando el pago"
-    alert(mensaje)
+    mensajeVuelto.value = err.response?.data?.mensaje || "Error procesando el pago"
     mostrarPago.value = false
     mostrarVuelto.value = true
     vuelto.value = { 0: 0 }
@@ -198,6 +202,7 @@ async function confirmarPago() {
 function resetearCompra() {
   refrescos.value.forEach(r => r.cantidad = 0)
   denominaciones.value.forEach(d => d.cantidad = 0)
+  mensajeVuelto.value = ""
   mostrarVuelto.value = false
 }
 
@@ -255,5 +260,12 @@ const totalVuelto = computed(() =>
 .vuelto-input {
   background-color: #f1f1f1;
   cursor: not-allowed;
+}
+
+.mensaje-vuelto {
+  text-align: center;
+  font-size: 16px;
+  color: #444;
+  margin: 15px 0;
 }
 </style>

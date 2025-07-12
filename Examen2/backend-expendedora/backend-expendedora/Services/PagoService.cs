@@ -26,6 +26,7 @@ namespace backend_expendedora.Services
             }
 
             int ingresado = 0;
+
             // Verificar el dinero ingresado
             foreach (var kvp in solicitud.DineroIngresado)
             {
@@ -38,20 +39,27 @@ namespace backend_expendedora.Services
                 ingresado += kvp.Key * kvp.Value;
             }
 
+            // Caso: dinero insuficiente
             if (ingresado < total)
-                throw new PagoException("Dinero insuficiente");
+            {
+                return new PagoResponse
+                {
+                    Mensaje = "Dinero insuficiente. Se devuelve el monto ingresado.",
+                    Vuelto = new Dictionary<int, int>(solicitud.DineroIngresado)
+                };
+            }
 
             int cambio = ingresado - total;
 
+            // Calcular el cambio
             var vuelto = CalcularCambio(cambio);
 
             if (vuelto == null)
             {
-                // Si no se puede dar vuelto y el cambio es mayor a 0 => fuera de servicio
                 if (cambio > 0)
                     throw new PagoException("Fuera de servicio por falta de cambio");
 
-                // Si no hay cambio porque el pago fue exacto, no es un error
+                // Pago exacto, no hay error
                 return new PagoResponse
                 {
                     Mensaje = "Pago exacto",
@@ -59,16 +67,19 @@ namespace backend_expendedora.Services
                 };
             }
 
+            // Actualizar inventario de refrescos
             foreach (var item in solicitud.RefrescosSeleccionados)
             {
                 InventarioService.Refrescos[item.Key].Stock -= item.Value;
             }
 
+            // Sumar dinero ingresado
             foreach (var kvp in solicitud.DineroIngresado)
             {
                 InventarioService.Dinero[kvp.Key] += kvp.Value;
             }
 
+            // Restar dinero usado como vuelto
             foreach (var kvp in vuelto)
             {
                 InventarioService.Dinero[kvp.Key] -= kvp.Value;
@@ -81,12 +92,13 @@ namespace backend_expendedora.Services
             };
         }
 
+        // Método que calcula el cambio con monedas
         private Dictionary<int, int>? CalcularCambio(int cambio)
         {
             var disponible = InventarioService.Dinero;
 
             var denominaciones = disponible.Keys
-                .Where(x => x <= 500)
+                .Where(x => x <= 500) // Solo monedas
                 .OrderByDescending(x => x)
                 .ToList();
 
