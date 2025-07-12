@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Sección de selección de refrescos -->
     <div v-if="!mostrarPago">
       <h3 class="subtitulo">Ingrese la cantidad de refrescos que desea adquirir</h3>
 
@@ -53,44 +54,42 @@
       </button>
     </div>
 
+    <!-- Sección de ingreso de dinero -->
     <div v-if="mostrarPago" class="mt-4">
-      <h3 class="subtitulo">Ingrese el dinero para completar la compra</h3>
+      <h4 class="subtitulo">Ingrese el dinero</h4>
 
-      <div class="form-group">
-        <label for="colones1000">₡1000:</label>
-        <input type="number" class="form-control" v-model.number="ingreso.colones1000" min="0" />
-      </div>
-      <div class="form-group">
-        <label for="moneda500">₡500:</label>
-        <input type="number" class="form-control" v-model.number="ingreso.moneda500" min="0" />
-      </div>
-      <div class="form-group">
-        <label for="moneda100">₡100:</label>
-        <input type="number" class="form-control" v-model.number="ingreso.moneda100" min="0" />
-      </div>
-      <div class="form-group">
-        <label for="moneda50">₡50:</label>
-        <input type="number" class="form-control" v-model.number="ingreso.moneda50" min="0" />
-      </div>
-      <div class="form-group">
-        <label for="moneda25">₡25:</label>
-        <input type="number" class="form-control" v-model.number="ingreso.moneda25" min="0" />
+      <div class="row justify-content-center">
+        <div class="col-auto" v-for="(denominacion, index) in denominaciones" :key="index">
+          <label :for="'den-' + denominacion.valor">
+            {{ denominacion.tipo === 'billete' ? `Cantidad de billetes de ₡${denominacion.valor}` : `Cantidad de monedas de ₡${denominacion.valor}` }}
+          </label>
+          <input
+            type="number"
+            class="form-control dinero-input"
+            v-model.number="denominacion.cantidad"
+            min="0"
+            max="999"
+            @input="validarIngreso(index, $event)"
+            :disabled="indiceActivo !== null && indiceActivo !== index"
+            @focus="indiceActivo = index"
+            @blur="indiceActivo = null"
+          />
+        </div>
       </div>
 
-      <h5>Monto total a pagar: ₡{{ subtotal }}</h5>
       <h5>Monto ingresado: ₡{{ montoIngresado }}</h5>
 
-      <button class="btn btn-success" :disabled="montoIngresado <= 0">
-        Pagar
+      <button class="btn btn-primary mt-3" :disabled="!botonPagoHabilitado">
+        Confirmar pago
       </button>
     </div>
-  </div>
 
-  <footer class="border-top footer text-muted">
-    <div class="container">
-      &copy; 2025 - Examen 2 B54291 - <a href="#">Privacy</a>
-    </div>
-  </footer>
+    <footer class="border-top footer text-muted">
+      <div class="container">
+        &copy; 2025 - Examen 2 B54291 - <a href="#">Privacy</a>
+      </div>
+    </footer>
+  </div>
 </template>
 
 <script setup>
@@ -101,24 +100,7 @@ import { API_BASE } from '../api'
 const mostrarPago = ref(false)
 const refrescos = ref([])
 const inputActivo = ref(null)
-
-const ingreso = ref({
-  colones1000: 0,
-  moneda500: 0,
-  moneda100: 0,
-  moneda50: 0,
-  moneda25: 0,
-})
-
-const montoIngresado = computed(() => {
-  return (
-    ingreso.value.colones1000 * 1000 +
-    ingreso.value.moneda500 * 500 +
-    ingreso.value.moneda100 * 100 +
-    ingreso.value.moneda50 * 50 +
-    ingreso.value.moneda25 * 25
-  )
-})
+const indiceActivo = ref(null)
 
 onMounted(async () => {
   try {
@@ -166,7 +148,7 @@ function filtrarEntrada(event, indice) {
   const valor = event.target.value
   const numero = parseInt(valor)
 
-  if (isNaN(numero)) {
+  if (isNaN(numero) || numero < 0) {
     refrescos.value[indice].cantidad = 0
   } else {
     refrescos.value[indice].cantidad = numero
@@ -191,10 +173,48 @@ function obtenerImagen(nombre) {
 
   return ''
 }
+
+const denominaciones = ref([
+  { valor: 1000, tipo: 'billete', cantidad: 0 },
+  { valor: 500, tipo: 'moneda', cantidad: 0 },
+  { valor: 100, tipo: 'moneda', cantidad: 0 },
+  { valor: 50, tipo: 'moneda', cantidad: 0 },
+  { valor: 25, tipo: 'moneda', cantidad: 0 },
+])
+
+const montoIngresado = computed(() => {
+  return denominaciones.value.reduce((total, d) => total + d.valor * d.cantidad, 0)
+})
+
+const botonPagoHabilitado = computed(() => {
+  const todosValidos = denominaciones.value.every(d => d.cantidad >= 0 && d.cantidad <= 999)
+  const soloUnoActivo = denominaciones.value.filter(d => d.cantidad > 0).length === 1
+  const sinCampoActivo = indiceActivo.value === null
+  const hayDinero = montoIngresado.value > 0
+  return todosValidos && soloUnoActivo && sinCampoActivo && hayDinero
+})
+
+
+function validarIngreso(indice, event) {
+  const valor = event.target.value
+  const numero = parseInt(valor)
+
+  if (isNaN(numero) || numero < 0 || numero > 999) {
+    denominaciones.value[indice].cantidad = 0
+  } else {
+    denominaciones.value[indice].cantidad = numero
+  }
+
+  // Deshabilitar otros campos si este tiene valor
+  denominaciones.value.forEach((d, i) => {
+    if (i !== indice) d.cantidad = 0
+  })
+}
 </script>
 
 <style scoped>
-.cantidad-input {
+.cantidad-input,
+.dinero-input {
   width: 80px;
   text-align: center;
   margin: 0 auto;
