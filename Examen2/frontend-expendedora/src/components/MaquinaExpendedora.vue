@@ -62,20 +62,40 @@
     <!-- Sección de visualización del vuelto -->
     <div v-if="mostrarVuelto">
       <h4 class="subtitulo">Vuelto entregado</h4>
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>Denominación</th>
-            <th>Cantidad</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(cantidad, valor) in vuelto" :key="valor">
-            <td>₡{{ valor }}</td>
-            <td>{{ cantidad }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="row justify-content-center">
+        <!-- Mostrar todos los valores de vuelto incluyendo 0 para denominaciones no usadas -->
+        <div class="col-auto" v-for="(cantidad, valor) in vuelto" :key="valor">
+          <label>
+            {{ valor === 1000 ? `Billetes de ₡${valor}` : `Monedas de ₡${valor}` }}
+          </label>
+          <input 
+            type="text" 
+            class="form-control vuelto-input" 
+            :value="cantidad" 
+            readonly 
+            disabled 
+          />
+        </div>
+        <!-- Mostrar denominaciones incluso con 0 -->
+        <div v-for="denominacion in denominaciones" :key="denominacion.valor">
+          <label>
+            {{ denominacion.tipo === 'billete' ? `Billetes de ₡${denominacion.valor}` : `Monedas de ₡${denominacion.valor}` }}
+          </label>
+          <input 
+            type="text" 
+            class="form-control vuelto-input" 
+            :value="vuelto[denominacion.valor] || 0" 
+            readonly 
+            disabled 
+          />
+        </div>
+      </div>
+
+      <!-- Mensaje de error cuando no haya suficiente cambio -->
+      <div v-if="vueltoError" class="alert alert-danger mt-3">
+        {{ vueltoError }}
+      </div>
+
       <button class="btn btn-secondary" @click="resetearCompra">Nueva compra</button>
     </div>
 
@@ -94,6 +114,7 @@ const mostrarPago = ref(false)
 const mostrarVuelto = ref(false)
 const refrescos = ref([])
 const vuelto = ref({})
+const vueltoError = ref("")
 const inputActivo = ref(null)
 const indiceActivo = ref(null)
 
@@ -178,6 +199,7 @@ async function confirmarPago() {
     vuelto.value = res.data.vuelto || {}
     mostrarPago.value = false
     mostrarVuelto.value = true
+    vueltoError.value = "";
     await cargarRefrescos()
   } catch (err) {
     const mensaje = err.response?.data?.mensaje || "Error procesando el pago"
@@ -185,6 +207,7 @@ async function confirmarPago() {
     mostrarPago.value = false
     mostrarVuelto.value = true
     vuelto.value = { 0: 0 }
+    vueltoError.value = err.response?.data?.mensaje || "Fallo al realizar la compra"
   }
 }
 
@@ -196,35 +219,41 @@ function resetearCompra() {
 </script>
 
 <style scoped>
-.cantidad-input, .dinero-input {
+.cantidad-input, .dinero-input, .vuelto-input {
   width: 80px;
   text-align: center;
   margin: 0 auto;
   display: block;
 }
+
 .table {
   width: 100%;
   text-align: center;
 }
+
 .table th, .table td {
   text-align: center;
   vertical-align: middle;
 }
+
 .nombre-bebida {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
 }
+
 .bebida-img {
   width: 32px;
   height: 32px;
   object-fit: contain;
 }
+
 .subtitulo {
   text-align: center;
   margin-bottom: 20px;
 }
+
 .footer {
   margin-top: 40px;
   padding: 20px 0;
@@ -232,5 +261,10 @@ function resetearCompra() {
   text-align: center;
   color: #888;
   font-size: 14px;
+}
+
+.vuelto-input {
+  background-color: #f1f1f1;
+  cursor: not-allowed;
 }
 </style>

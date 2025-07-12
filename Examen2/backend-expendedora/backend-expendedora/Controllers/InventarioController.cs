@@ -32,7 +32,6 @@ namespace backend_expendedora.Controllers
         {
             var resultado = _confirmarPagoService.Ejecutar(solicitud);
 
-            // Si el resultado tiene una propiedad "error" con valor true, devolvemos un BadRequest
             if (resultado?.GetType().GetProperty("error")?.GetValue(resultado)?.Equals(true) == true)
             {
                 return BadRequest(resultado);
