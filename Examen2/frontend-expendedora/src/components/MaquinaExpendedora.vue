@@ -62,9 +62,8 @@
     <!-- Sección de visualización del vuelto -->
     <div v-if="mostrarVuelto">
       <h4 class="subtitulo">Vuelto entregado</h4>
-      <h5>Total vuelto entregado: ₡{{ totalVuelto }}</h5>
+
       <div class="row justify-content-center">
-        <!-- Mostrar todas las denominaciones (incluso si su cantidad es 0) -->
         <div v-for="denominacion in denominaciones.filter(d => d.valor <= 500)" :key="denominacion.valor" class="col-auto">
           <label>
             {{ denominacion.tipo === 'billete' ? `Billetes de ₡${denominacion.valor}` : `Monedas de ₡${denominacion.valor}` }}
@@ -79,12 +78,11 @@
         </div>
       </div>
 
-      <!-- Mensaje de error cuando no haya suficiente cambio-->
-      <div v-if="vueltoError" class="alert alert-danger mt-3">
-        {{ vueltoError }}
-      </div>
+      <h5>Total vuelto entregado: ₡{{ totalVuelto }}</h5>
 
-      <button class="btn btn-secondary" @click="resetearCompra">Nueva compra</button>
+      <div class="text-center mt-3">
+        <button class="btn btn-secondary" @click="resetearCompra">Nueva compra</button>
+      </div>
     </div>
 
     <footer class="border-top footer text-muted">
@@ -102,7 +100,6 @@ const mostrarPago = ref(false)
 const mostrarVuelto = ref(false)
 const refrescos = ref([])
 const vuelto = ref({})
-const vueltoError = ref("")  // Variable para el mensaje de error
 const inputActivo = ref(null)
 const indiceActivo = ref(null)
 
@@ -165,7 +162,6 @@ const botonPagoHabilitado = computed(() =>
 function validarIngreso(indice, event) {
   const numero = parseInt(event.target.value)
   denominaciones.value[indice].cantidad = isNaN(numero) || numero < 0 || numero > 999 ? 0 : numero
-  denominaciones.value.forEach((d, i) => { if (i !== indice) d.cantidad = 0 })
 }
 
 async function confirmarPago() {
@@ -184,10 +180,11 @@ async function confirmarPago() {
       refrescosSeleccionados,
       dineroIngresado
     })
+
     vuelto.value = res.data.vuelto || {}
     mostrarPago.value = false
     mostrarVuelto.value = true
-    vueltoError.value = "";  // Resetear error
+
     await cargarRefrescos()
   } catch (err) {
     const mensaje = err.response?.data?.mensaje || "Error procesando el pago"
@@ -195,7 +192,6 @@ async function confirmarPago() {
     mostrarPago.value = false
     mostrarVuelto.value = true
     vuelto.value = { 0: 0 }
-    vueltoError.value = err.response?.data?.mensaje || "Fallo al realizar la compra"
   }
 }
 
