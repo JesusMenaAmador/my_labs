@@ -2,10 +2,12 @@
   <div>
     <h3>Refrescos disponibles</h3>
 
+
+
     <table class="table table-bordered" v-if="refrescos.length > 0">
       <thead>
         <tr>
-          <th>Producto</th>
+          <th>Refresco</th>
           <th>Precio (₡)</th>
           <th>Stock</th>
           <th>Cantidad a comprar</th>
@@ -18,18 +20,22 @@
           <td>{{ producto.stock }}</td>
           <td>
             <input
-              type="number"
-              class="form-control"
-              v-model.number="producto.cantidad"
-              :min="0"
-              :max="producto.stock"
-              @change="validarCantidad(indice)"
+                type="number"
+                class="form-control cantidad-input"
+                v-model.number="producto.cantidad"
+                :min="0"
+                :max="producto.stock"
+                step="1"
+                @blur="validarCantidad(indice)"
+                @keyup.enter="validarCantidad(indice)"
             />
           </td>
         </tr>
       </tbody>
     </table>
 
+
+    
     <div v-else>
       <p>Cargando datos desde el servidor...</p>
     </div>
@@ -73,9 +79,25 @@ const subtotal = computed(() => {
 
 function validarCantidad(indice) {
   const producto = refrescos.value[indice]
-  if (producto.cantidad < 0 || producto.cantidad > producto.stock || isNaN(producto.cantidad)) {
-    alert(`Ingrese un número válido entre 0 y ${producto.stock} para ${producto.nombre}`)
+
+  if (producto.cantidad === '' || isNaN(producto.cantidad)) {
     producto.cantidad = 0
   }
+
+  if (producto.cantidad < 0) {
+    producto.cantidad = 0
+  }
+
+  if (producto.cantidad > producto.stock) {
+    alert(`Solo hay ${producto.stock} unidades de ${producto.nombre} disponibles.`)
+    producto.cantidad = producto.stock
+  }
 }
+
 </script>
+
+<style scoped>
+.cantidad-input {
+  width: 80px;
+}
+</style>
