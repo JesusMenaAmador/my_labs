@@ -1,3 +1,4 @@
+using backend_expendedora.Application.Handlers;
 using backend_expendedora.Services;
 
 var MyallowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -19,6 +20,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IPagoService, PagoService>();
 builder.Services.AddScoped<IConfirmarPagoService, ConfirmarPagoService>();
+builder.Services.AddScoped<ConfirmarPagoHandler>();
 
 
 var app = builder.Build();

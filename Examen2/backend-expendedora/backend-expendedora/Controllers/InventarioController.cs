@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using backend_expendedora.Models;
 using backend_expendedora.Services;
+using backend_expendedora.Application.Handlers;
 
 namespace backend_expendedora.Controllers
 {
@@ -8,11 +9,11 @@ namespace backend_expendedora.Controllers
     [Route("api/stock")]
     public class InventarioController : ControllerBase
     {
-        private readonly IConfirmarPagoService _confirmarPagoService;
+        private readonly ConfirmarPagoHandler _confirmarPagoHandler;
 
-        public InventarioController(IConfirmarPagoService confirmarPagoService)
+        public InventarioController(ConfirmarPagoHandler confirmarPagoHandler)
         {
-            _confirmarPagoService = confirmarPagoService;
+            _confirmarPagoHandler = confirmarPagoHandler;
         }
 
         [HttpGet("refrescos")]
@@ -28,16 +29,9 @@ namespace backend_expendedora.Controllers
         }
 
         [HttpPost("confirmar-pago")]
-        public ActionResult ConfirmarPago([FromBody] PagoRequest solicitud)
+        public IActionResult ConfirmarPago([FromBody] PagoRequest solicitud)
         {
-            var resultado = _confirmarPagoService.Ejecutar(solicitud);
-
-            if (resultado?.GetType().GetProperty("error")?.GetValue(resultado)?.Equals(true) == true)
-            {
-                return BadRequest(resultado);
-            }
-
-            return Ok(resultado);
+            return _confirmarPagoHandler.Ejecutar(solicitud);
         }
     }
 }
