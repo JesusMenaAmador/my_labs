@@ -1,65 +1,96 @@
 <template>
   <div>
-    <h3 class="subtitulo">Ingrese la cantidad de refrescos que desea adquirir</h3>
+    <div v-if="!mostrarPago">
+      <h3 class="subtitulo">Ingrese la cantidad de refrescos que desea adquirir</h3>
 
-    <table class="table table-bordered" v-if="refrescos.length > 0">
-      <thead>
-        <tr>
-          <th>Refresco</th>
-          <th>Precio (₡)</th>
-          <th>Stock</th>
-          <th>Cantidad a comprar</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(producto, indice) in refrescos" :key="indice">
-          <td class="nombre-bebida">
-            <img
-              class="bebida-img"
-              :src="obtenerImagen(producto.nombre)"
-              :alt="producto.nombre"
-            />
-            <span>{{ producto.nombre }}</span>
-          </td>
-          <td>{{ producto.precio }}</td>
-          <td>{{ producto.stock }}</td>
-          <td>
-            <input
-              type="number"
-              class="form-control cantidad-input"
-              v-model.number="producto.cantidad"
-              :min="0"
-              :max="producto.stock"
-              step="1"
-              :disabled="inputActivo !== null && inputActivo !== indice"
-              @focus="inputActivo = indice"
-              @blur="() => manejarFinEdicion(indice)"
-              @input="filtrarEntrada($event, indice)"
-            />
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <table class="table table-bordered" v-if="refrescos.length > 0">
+        <thead>
+          <tr>
+            <th>Refresco</th>
+            <th>Precio (₡)</th>
+            <th>Stock</th>
+            <th>Cantidad a comprar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(producto, indice) in refrescos" :key="indice">
+            <td class="nombre-bebida">
+              <img
+                class="bebida-img"
+                :src="obtenerImagen(producto.nombre)"
+                :alt="producto.nombre"
+              />
+              <span>{{ producto.nombre }}</span>
+            </td>
+            <td>{{ producto.precio }}</td>
+            <td>{{ producto.stock }}</td>
+            <td>
+              <input
+                type="number"
+                class="form-control cantidad-input"
+                v-model.number="producto.cantidad"
+                :min="0"
+                :max="producto.stock"
+                step="1"
+                :disabled="inputActivo !== null && inputActivo !== indice"
+                @focus="inputActivo = indice"
+                @blur="() => manejarFinEdicion(indice)"
+                @input="filtrarEntrada($event, indice)"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-    <div v-else>
-      <p>Cargando datos desde el servidor...</p>
+      <div v-else>
+        <p>Cargando datos desde el servidor...</p>
+      </div>
+
+      <h5>Total parcial: ₡{{ subtotal }}</h5>
+
+      <button class="btn btn-primary" @click="mostrarPago = true" :disabled="!botonHabilitado">
+        Continuar con el pago
+      </button>
     </div>
-
-    <h5>Total parcial: ₡{{ subtotal }}</h5>
-
-    <button class="btn btn-primary" @click="mostrarPago = true" :disabled="!botonHabilitado">
-      Continuar con el pago
-    </button>
 
     <div v-if="mostrarPago" class="mt-4">
-      <!-- Aquí irá la sección de ingreso de dinero -->
+      <h3 class="subtitulo">Ingrese el dinero para completar la compra</h3>
+
+      <div class="form-group">
+        <label for="colones1000">₡1000:</label>
+        <input type="number" class="form-control" v-model.number="ingreso.colones1000" min="0" />
+      </div>
+      <div class="form-group">
+        <label for="moneda500">₡500:</label>
+        <input type="number" class="form-control" v-model.number="ingreso.moneda500" min="0" />
+      </div>
+      <div class="form-group">
+        <label for="moneda100">₡100:</label>
+        <input type="number" class="form-control" v-model.number="ingreso.moneda100" min="0" />
+      </div>
+      <div class="form-group">
+        <label for="moneda50">₡50:</label>
+        <input type="number" class="form-control" v-model.number="ingreso.moneda50" min="0" />
+      </div>
+      <div class="form-group">
+        <label for="moneda25">₡25:</label>
+        <input type="number" class="form-control" v-model.number="ingreso.moneda25" min="0" />
+      </div>
+
+      <h5>Monto total a pagar: ₡{{ subtotal }}</h5>
+      <h5>Monto ingresado: ₡{{ montoIngresado }}</h5>
+
+      <button class="btn btn-success" :disabled="montoIngresado <= 0">
+        Pagar
+      </button>
     </div>
   </div>
+
   <footer class="border-top footer text-muted">
-  <div class="container">
-    &copy; 2025 - Examen 2 B54291- <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-  </div>
-</footer>
+    <div class="container">
+      &copy; 2025 - Examen 2 B54291 - <a href="#">Privacy</a>
+    </div>
+  </footer>
 </template>
 
 <script setup>
@@ -70,6 +101,24 @@ import { API_BASE } from '../api'
 const mostrarPago = ref(false)
 const refrescos = ref([])
 const inputActivo = ref(null)
+
+const ingreso = ref({
+  colones1000: 0,
+  moneda500: 0,
+  moneda100: 0,
+  moneda50: 0,
+  moneda25: 0,
+})
+
+const montoIngresado = computed(() => {
+  return (
+    ingreso.value.colones1000 * 1000 +
+    ingreso.value.moneda500 * 500 +
+    ingreso.value.moneda100 * 100 +
+    ingreso.value.moneda50 * 50 +
+    ingreso.value.moneda25 * 25
+  )
+})
 
 onMounted(async () => {
   try {
