@@ -2,8 +2,8 @@
 
 namespace backend_expendedora.Services
 {
-    public interface IPagoService
+    public interface IConfirmarPagoService
     {
-        PagoResponse ProcesarPago(PagoRequest solicitud);
+        object Ejecutar(PagoRequest solicitud);
     }
 }

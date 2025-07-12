@@ -4,7 +4,7 @@ namespace backend_expendedora.Services
 {
     public class PagoService : IPagoService
     {
-        public bool ProcesarPago(PagoRequest solicitud)
+        public PagoResponse ProcesarPago(PagoRequest solicitud)
         {
             int total = 0;
 
@@ -46,25 +46,26 @@ namespace backend_expendedora.Services
             if (vuelto.Values.All(c => c == 0) && cambio > 0)
                 throw new PagoException("Fuera de servicio");
 
-            // Descontar refrescos
             foreach (var item in solicitud.RefrescosSeleccionados)
             {
                 InventarioService.Refrescos[item.Key].Stock -= item.Value;
             }
 
-            // Añadir dinero ingresado
             foreach (var kvp in solicitud.DineroIngresado)
             {
                 InventarioService.Dinero[kvp.Key] += kvp.Value;
             }
 
-            // Restar vuelto
             foreach (var kvp in vuelto)
             {
                 InventarioService.Dinero[kvp.Key] -= kvp.Value;
             }
 
-            return true;
+            return new PagoResponse
+            {
+                Mensaje = "Pago exitoso",
+                Vuelto = vuelto
+            };
         }
 
         private Dictionary<int, int>? CalcularCambio(int cambio)
@@ -89,12 +90,17 @@ namespace backend_expendedora.Services
             if (cambio == 0)
             {
                 foreach (var d in denominaciones)
-                    if (!resultado.ContainsKey(d)) resultado[d] = 0;
+                {
+                    if (!resultado.ContainsKey(d))
+                        resultado[d] = 0;
+                }
 
                 return resultado;
             }
 
-            return null; // No se puede dar el cambio exacto
+            return null;
         }
     }
 }
+
+

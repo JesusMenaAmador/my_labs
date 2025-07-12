@@ -18,6 +18,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IPagoService, PagoService>();
+builder.Services.AddScoped<IConfirmarPagoService, ConfirmarPagoService>();
+
 
 var app = builder.Build();
 

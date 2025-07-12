@@ -8,11 +8,11 @@ namespace backend_expendedora.Controllers
     [Route("api/stock")]
     public class InventarioController : ControllerBase
     {
-        private readonly IPagoService _pagoService;
+        private readonly IConfirmarPagoService _confirmarPagoService;
 
-        public InventarioController(IPagoService pagoService)
+        public InventarioController(IConfirmarPagoService confirmarPagoService)
         {
-            _pagoService = pagoService;
+            _confirmarPagoService = confirmarPagoService;
         }
 
         [HttpGet("refrescos")]
@@ -30,15 +30,15 @@ namespace backend_expendedora.Controllers
         [HttpPost("confirmar-pago")]
         public ActionResult ConfirmarPago([FromBody] PagoRequest solicitud)
         {
-            try
+            var resultado = _confirmarPagoService.Ejecutar(solicitud);
+
+            // Si el resultado tiene una propiedad "error" con valor true, devolvemos un BadRequest
+            if (resultado?.GetType().GetProperty("error")?.GetValue(resultado)?.Equals(true) == true)
             {
-                _pagoService.ProcesarPago(solicitud);
-                return Ok(new { mensaje = "Compra realizada con éxito" });
+                return BadRequest(resultado);
             }
-            catch (PagoException ex)
-            {
-                return BadRequest(new { mensaje = ex.Message });
-            }
+
+            return Ok(resultado);
         }
     }
 }
