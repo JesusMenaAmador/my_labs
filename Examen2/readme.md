@@ -16,6 +16,7 @@ Favor primero revisar los paquetes necesarios para correr cada parte del proyect
     Colocarse en la carpeta [/my_labs/Examen2/frontend-expendedora](/my_labs/Examen2/frontend-expendedora), abrir una terminal y correr los siguientes comandos:
       * `npm install vue-router`
       * `npm install bootstrap`
+      * `npm install axios`
 
   * Paquetes necesarios para correr el proyecto back-end
 
