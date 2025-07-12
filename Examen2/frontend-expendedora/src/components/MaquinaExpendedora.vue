@@ -2,8 +2,6 @@
   <div>
     <h3>Refrescos disponibles</h3>
 
-
-
     <table class="table table-bordered" v-if="refrescos.length > 0">
       <thead>
         <tr>
@@ -20,29 +18,29 @@
           <td>{{ producto.stock }}</td>
           <td>
             <input
-                type="number"
-                class="form-control cantidad-input"
-                v-model.number="producto.cantidad"
-                :min="0"
-                :max="producto.stock"
-                step="1"
-                @blur="validarCantidad(indice)"
-                @keyup.enter="validarCantidad(indice)"
+              type="number"
+              class="form-control cantidad-input"
+              v-model.number="producto.cantidad"
+              :min="0"
+              :max="producto.stock"
+              step="1"
+              :disabled="inputActivo !== null && inputActivo !== indice"
+              @focus="inputActivo = indice"
+              @blur="() => manejarFinEdicion(indice)"
+              @input="filtrarEntrada($event, indice)"
             />
           </td>
         </tr>
       </tbody>
     </table>
 
-
-    
     <div v-else>
       <p>Cargando datos desde el servidor...</p>
     </div>
 
     <h5>Total parcial: ₡{{ subtotal }}</h5>
 
-    <button class="btn btn-primary" @click="mostrarPago = true" :disabled="subtotal === 0">
+    <button class="btn btn-primary" @click="mostrarPago = true" :disabled="!botonHabilitado">
       Continuar con el pago
     </button>
 
@@ -53,17 +51,17 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import axios from 'axios';
-import { API_BASE } from '../api';
+import { ref, computed, onMounted } from 'vue'
+import axios from 'axios'
+import { API_BASE } from '../api'
 
 const mostrarPago = ref(false)
 const refrescos = ref([])
+const inputActivo = ref(null)
 
 onMounted(async () => {
   try {
     const respuesta = await axios.get(`${API_BASE}/api/stock/refrescos`)
-    console.log('Datos cargados:', respuesta.data)
     refrescos.value = respuesta.data.map(r => ({
       ...r,
       cantidad: 0
@@ -75,6 +73,10 @@ onMounted(async () => {
 
 const subtotal = computed(() => {
   return refrescos.value.reduce((acum, r) => acum + (r.cantidad * r.precio), 0)
+})
+
+const botonHabilitado = computed(() => {
+  return inputActivo.value === null && subtotal.value > 0
 })
 
 function validarCantidad(indice) {
@@ -94,6 +96,21 @@ function validarCantidad(indice) {
   }
 }
 
+function manejarFinEdicion(indice) {
+  validarCantidad(indice)
+  inputActivo.value = null
+}
+
+function filtrarEntrada(event, indice) {
+  const valor = event.target.value
+  const numero = parseInt(valor)
+
+  if (isNaN(numero)) {
+    refrescos.value[indice].cantidad = 0
+  } else {
+    refrescos.value[indice].cantidad = numero
+  }
+}
 </script>
 
 <style scoped>
