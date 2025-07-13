@@ -3,7 +3,9 @@
     <div v-if="!mostrarPago && !mostrarVuelto">
       <h3 class="subtitulo">Ingrese la cantidad de refrescos que desea adquirir</h3>
 
-      <table class="table table-bordered" v-if="refrescos.length > 0">
+      <p v-if="cargando">Cargando datos desde el servidor...</p>
+
+      <table class="table table-bordered" v-if="!cargando && refrescos.length > 0">
         <thead>
           <tr>
             <th>Refresco</th>
@@ -33,10 +35,6 @@
       <p v-if="mensajeErrorCantidad" class="text-danger text-center mt-2">
         {{ mensajeErrorCantidad }}
       </p>
-
-      <div v-else>
-        <p>Cargando datos desde el servidor...</p>
-      </div>
 
       <h5>Total parcial: ₡{{ subtotal }}</h5>
       <button class="btn btn-primary" @click="mostrarPago = true" :disabled="!botonHabilitado">Continuar con el pago</button>
@@ -83,7 +81,7 @@
 
       <h5>Total vuelto entregado: ₡{{ totalVuelto }}</h5>
 
-        <button class="btn btn-primary" @click="resetearCompra">Nueva compra</button>
+      <button class="btn btn-primary" @click="resetearCompra">Nueva compra</button>
     </div>
 
     <footer class="border-top footer text-muted">
@@ -100,6 +98,7 @@ import { API_BASE } from '../api'
 const mostrarPago = ref(false)
 const mostrarVuelto = ref(false)
 const refrescos = ref([])
+const cargando = ref(true)
 const vuelto = ref({})
 const mensajeVuelto = ref("")
 const mensajeErrorCantidad = ref("")
@@ -111,8 +110,15 @@ onMounted(async () => {
 })
 
 async function cargarRefrescos() {
-  const res = await axios.get(`${API_BASE}/api/stock/refrescos`)
-  refrescos.value = res.data.map(r => ({ ...r, cantidad: 0 }))
+  cargando.value = true
+  try {
+    const res = await axios.get(`${API_BASE}/api/stock/refrescos`)
+    refrescos.value = res.data.map(r => ({ ...r, cantidad: 0 }))
+  } catch (error) {
+    console.error("Error cargando refrescos:", error)
+  } finally {
+    cargando.value = false
+  }
 }
 
 const subtotal = computed(() =>
