@@ -30,12 +30,13 @@ Favor primero revisar los paquetes necesarios para correr cada parte del proyect
       * `npm install bootstrap`
       * `npm install axios`
 
-  * Paquetes necesarios para correr el proyecto back-end
+  * Paquetes necesarios para correr el proyecto de pruebas del back-end
 
-    Colocarse en la carpeta [/my_labs/Examen2/backend-expendedora](/my_labs/Examen2/backend-expendedora), abrir una terminal y correr los siguientes comandos:
-      * ``
-      * ``
-      * ``
+    Colocarse en la carpeta [/my_labs/Examen2/backend-expendedora/MaquinaExpendedoraTests](/my_labs/Examen2/backend-expendedora/MaquinaExpendedoraTests), abrir una terminal y correr los siguientes comandos:
+      * `dotnet add package Moq`
+      * `dotnet add package NUnit`
+      * `dotnet add package NUnit3TestAdapter`
+      * `dotnet add package Microsoft.NET.Test.Sdk`
 
 Una vez verificados los paquetes se puede proceder a correr el proyecto backend y después el frontend:
 

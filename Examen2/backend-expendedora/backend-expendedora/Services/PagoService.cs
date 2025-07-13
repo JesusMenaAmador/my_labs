@@ -11,7 +11,6 @@ namespace backend_expendedora.Services
         {
             int total = 0;
 
-            // Verificar los refrescos seleccionados y calcular el total
             foreach (var item in solicitud.RefrescosSeleccionados)
             {
                 if (!InventarioService.Refrescos.ContainsKey(item.Key))
@@ -27,7 +26,6 @@ namespace backend_expendedora.Services
 
             int ingresado = 0;
 
-            // Verificar el dinero ingresado
             foreach (var kvp in solicitud.DineroIngresado)
             {
                 if (!InventarioService.Dinero.ContainsKey(kvp.Key))
@@ -39,7 +37,6 @@ namespace backend_expendedora.Services
                 ingresado += kvp.Key * kvp.Value;
             }
 
-            // Caso: dinero insuficiente
             if (ingresado < total)
             {
                 return new PagoResponse
