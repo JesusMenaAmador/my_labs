@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Sección de selección de refrescos -->
     <div v-if="!mostrarPago && !mostrarVuelto">
       <h3 class="subtitulo">Ingrese la cantidad de refrescos que desea adquirir</h3>
 
@@ -31,6 +30,10 @@
         </tbody>
       </table>
 
+      <p v-if="mensajeErrorCantidad" class="text-danger text-center mt-2">
+        {{ mensajeErrorCantidad }}
+      </p>
+
       <div v-else>
         <p>Cargando datos desde el servidor...</p>
       </div>
@@ -39,7 +42,6 @@
       <button class="btn btn-primary" @click="mostrarPago = true" :disabled="!botonHabilitado">Continuar con el pago</button>
     </div>
 
-    <!-- Sección de ingreso de dinero -->
     <div v-if="mostrarPago && !mostrarVuelto" class="mt-4">
       <h4 class="subtitulo">Ingrese el dinero</h4>
       <div class="row justify-content-center">
@@ -59,7 +61,6 @@
       </button>
     </div>
 
-    <!-- Sección de visualización del vuelto -->
     <div v-if="mostrarVuelto">
       <h4 class="subtitulo">Vuelto entregado</h4>
 
@@ -101,6 +102,7 @@ const mostrarVuelto = ref(false)
 const refrescos = ref([])
 const vuelto = ref({})
 const mensajeVuelto = ref("")
+const mensajeErrorCantidad = ref("")
 const inputActivo = ref(null)
 const indiceActivo = ref(null)
 
@@ -121,7 +123,15 @@ const botonHabilitado = computed(() => inputActivo.value === null && subtotal.va
 
 function validarCantidad(indice) {
   const producto = refrescos.value[indice]
-  producto.cantidad = Math.max(0, Math.min(producto.cantidad || 0, producto.stock))
+  const cantidad = producto.cantidad
+
+  if (cantidad > producto.stock) {
+    mensajeErrorCantidad.value = `La cantidad ingresada de ${producto.nombre} supera el stock disponible. Se ajustó al máximo permitido.`
+    producto.cantidad = producto.stock
+  } else {
+    mensajeErrorCantidad.value = ""
+    producto.cantidad = Math.max(0, cantidad || 0)
+  }
 }
 
 function manejarFinEdicion(indice) {
@@ -200,6 +210,7 @@ function resetearCompra() {
   refrescos.value.forEach(r => r.cantidad = 0)
   denominaciones.value.forEach(d => d.cantidad = 0)
   mensajeVuelto.value = ""
+  mensajeErrorCantidad.value = ""
   mostrarVuelto.value = false
 }
 

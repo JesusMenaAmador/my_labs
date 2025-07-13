@@ -56,7 +56,7 @@ namespace backend_expendedora.Services
                 {
                     return new PagoResponse
                     {
-                        Mensaje = "Fuera de servicio por falta de cambio",
+                        Mensaje = "Fallo al realizar la compra, máquina fuera de servicio por falta de cambio",
                         Vuelto = new Dictionary<int, int>(solicitud.DineroIngresado)
                     };
                 }
